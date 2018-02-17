@@ -2,9 +2,8 @@
 #will probably have to run "pip install requests" to get requests library to work
 import requests #https requests library
 from pprint import pprint #pretty print
-
-#will probably have to run "pip install ipython" and pip install "ipython[all]"
-#from IPython.display import HTML 
+from keyphrase import generate_keyphrase_list #Calls keyphrase.py to get a list of keyphrase names
+from keyphrase import print_phrase_list #Calls keyphrase.py to print the phrase list
 
 #subscription key for the Text Analytics
 subscription_key="867d6db86b5745c3a9fa1b8c1766134d"
@@ -24,23 +23,11 @@ documents = { 'documents': [
     { 'id': '3', 'text': 'This is Chinese' }
 ]}
 
-
 #This uses the API to get the language
 headers   = {"Ocp-Apim-Subscription-Key": subscription_key}
 response  = requests.post(language_api_url, headers=headers, json=documents)
 languages = response.json()
 pprint(languages) #prints the detected language 
-
-
-
-
-#renders JSON data as HTML
-"""for document in languages["documents"]:
-    text  = next(filter(lambda d: d["id"] == document["id"], documents["documents"]))["text"]
-    langs = ", ".join(["{0}({1})".format(lang["name"], lang["score"]) for lang in document["detectedLanguages"]])
-    table.append("<tr><td>{0}</td><td>{1}</td>".format(text, langs))
-HTML("<table><tr><th>Text</th><th>Detected languages(scores)</th></tr>{0}</table>".format("\n".join(table)))"""
-
 
 #finds the sentiments associated with the text
 sentiment_api_url = text_analytics_base_url + "sentiment"
@@ -71,13 +58,16 @@ headers   = {"Ocp-Apim-Subscription-Key": subscription_key}
 response  = requests.post(key_phrase_api_url, headers=headers, json=documents)
 key_phrases = response.json()
 pprint(key_phrases)
+key_phrases_list = generate_keyphrase_list(key_phrases)
+print_phrase_list(key_phrases_list)
 
-
-dictionary = {'documents': [{'id': '1', 'text': 'This is a document written in English.'},
-               {'id': '2', 'text': 'Este es un document escrito en Espanol.'},
-               {'id': '3', 'text': 'Chinese'}]}
+dictionary = {'documents': [{'id': '1', 'text': 'This is a document written in English.'}]}
 
 headers   = {"Ocp-Apim-Subscription-Key": subscription_key}
 response  = requests.post(key_phrase_api_url, headers=headers, json=dictionary)
 key_phrases = response.json()
 pprint(key_phrases)
+
+key_phrases_list = generate_keyphrase_list(key_phrases)
+print_phrase_list(key_phrases_list)
+
