@@ -4,6 +4,7 @@ import requests #https requests library
 from pprint import pprint #pretty print
 from keyphrase import generate_keyphrase_list #Calls keyphrase.py to get a list of keyphrase names
 from keyphrase import print_phrase_list #Calls keyphrase.py to print the phrase list
+from readfile import create_list
 
 #subscription key for the Text Analytics
 subscription_key="867d6db86b5745c3a9fa1b8c1766134d"
@@ -11,7 +12,7 @@ assert subscription_key
 
 #API endpoint
 text_analytics_base_url = "https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/"
-
+"""
 #find the languages associated with the text
 language_api_url = text_analytics_base_url + "languages"
 print(language_api_url)
@@ -41,32 +42,25 @@ documents = {'documents' : [
   {'id': '4', 'language': 'es', 'text': 'La carretera estaba atascada. Habia mucho trafico el dia de ayer.'}
 ]}
 
+dictionary = {'documents': create_list()}
 #This uses the API to get the sentiments
 headers   = {"Ocp-Apim-Subscription-Key": subscription_key}
-response  = requests.post(sentiment_api_url, headers=headers, json=documents)
+response  = requests.post(sentiment_api_url, headers=headers, json=dictionary)
 sentiments = response.json()
 pprint(sentiments) #sentiment gives the documents a rating between 1 and 0, with closer to 1 meaning positive sentiment and closer to zero is negative sentiment
+"""
 
 #finds the keyphrases associated with the text
 key_phrase_api_url = text_analytics_base_url + "keyPhrases"
 print(key_phrase_api_url)
 
+dictionary = {'documents': create_list()}
 
 
 #This uses the API to get the key phrases
 headers   = {"Ocp-Apim-Subscription-Key": subscription_key}
-response  = requests.post(key_phrase_api_url, headers=headers, json=documents)
-key_phrases = response.json()
-pprint(key_phrases)
-key_phrases_list = generate_keyphrase_list(key_phrases)
-print_phrase_list(key_phrases_list)
-
-dictionary = {'documents': [{'id': '1', 'text': 'This is a document written in English.'}]}
-
-headers   = {"Ocp-Apim-Subscription-Key": subscription_key}
 response  = requests.post(key_phrase_api_url, headers=headers, json=dictionary)
 key_phrases = response.json()
-pprint(key_phrases)
 
 key_phrases_list = generate_keyphrase_list(key_phrases)
 print_phrase_list(key_phrases_list)
