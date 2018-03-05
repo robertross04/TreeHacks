@@ -52,7 +52,7 @@ pprint(sentiments) #sentiment gives the documents a rating between 1 and 0, with
 
 #finds the keyphrases associated with the text
 key_phrase_api_url = text_analytics_base_url + "keyPhrases"
-print(key_phrase_api_url)
+
 
 dictionary = {'documents': create_list()}
 
