@@ -17,7 +17,8 @@ BUFFER_SIZE = 512
 #
 class MyListener(houndify.HoundListener):
   def onFinalResponse(self, response):
-    print "Final response: " + str(response)
+    pass
+    #print "Final response: " + str(response)
   def onError(self, err):
     pass
     #print "Error: " + str(err)
