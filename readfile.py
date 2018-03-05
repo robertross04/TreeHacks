@@ -1,10 +1,12 @@
 import json
-
+from houndify_json_to_text import parse
 CHAR_MAX_COUNT = 5000 #largest character count that Microsoft Text Analytics API can handle as text input 
 pieces_of_text = []
 def create_list():
-	filename = raw_input("Enter the name of the file: ")
-	file_object = open(filename, "r")
+	#filename should always be output.txt, from the houndify-json_to_text.py script.
+	#filename = raw_input("Enter the name of the file: ")
+	parse()
+	file_object = open("output.txt", "r")
 
 	count = 1
 	while(True):
